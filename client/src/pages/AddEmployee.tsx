@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import Navbar from '../components/Navbar'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useAppDispatch,useAppSelector } from "../app/hooks";
-import { create } from '../features/employeeSlice';
-import { EmployeeModel, EmployeeModelData } from '../models/redux-models';
+import { EmployeeModel, EmployeeModelData } from '../models/models';
+import { useDispatch } from 'react-redux';
+import { insertEmployeeRequest } from '../redux/actions/employeeActions';
 
 const Wrapper = styled.div`
 margin-top:20px;
@@ -72,8 +72,7 @@ export default function AddEmployee() {
   const [gender,setGender]=useState('male')
   const [salary,setSalary]=useState(0)
   const [dateOfBirth,setDateOfBirth]=useState(new Date())
-
-  const dispatch=useAppDispatch();
+  const dispatch=useDispatch()
 
   const submit=async(e:React.MouseEvent<HTMLButtonElement>)=>{
     e.preventDefault()
@@ -84,7 +83,7 @@ export default function AddEmployee() {
       dateOfBirth
     }
     console.log(data)
-    dispatch(create(data))
+    dispatch(insertEmployeeRequest(data))
   }
   return (
     <div>

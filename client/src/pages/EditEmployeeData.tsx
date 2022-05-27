@@ -4,10 +4,10 @@ import Navbar from '../components/Navbar'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { show, update } from '../features/employeeSlice';
-import { EmployeeModelData } from '../models/redux-models';
-import axios from 'axios';
+import { EmployeeModelData } from '../models/models';
+import { useDispatch, useSelector } from 'react-redux';
+import { getEmployeeRequest, updateEmployeeRequest } from '../redux/actions/employeeActions';
+import { EmployeeState } from '../redux/reducers/employeeReducers';
 
 
 const Wrapper = styled.div`
@@ -74,25 +74,24 @@ font-size:17px;
 export default function EditEmployeeData() {
     const location = useLocation();
     const id = location.pathname.split('/')[3];
-    const dispatch = useAppDispatch();
     const [name, setName] = useState('')
     const [gender, setGender] = useState('')
     const [salary, setSalary] = useState(0)
     const [dateOfBirth, setDateOfBirth] = useState(new Date())
 
+    const dispatch=useDispatch()
     useEffect(()=>{
-        const fetch=async()=>{
-            const res=await axios.get(`http://localhost:8000/api/employee/${id}`)
-            if(res.status===200){
-                setName(res.data.data.name)
-                setGender(res.data.data.gender)
-                setSalary(res.data.data.salary)
-                setDateOfBirth(new Date(res.data.data.dateOfBirth))
-            }
-        }
-        fetch()
+      dispatch(getEmployeeRequest(id))  
     },[])
-
+    const employee = useSelector<EmployeeState, EmployeeState["employee"]>(
+        (state) => state.employee
+    );
+    useEffect(()=>{
+        setName(employee.name)
+        setGender(employee.gender)
+        setSalary(employee.salary)
+        setDateOfBirth(new Date(employee.dateOfBirth))
+    },[employee])
     const navigate=useNavigate()
     const updateRecord = (e:React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
@@ -102,11 +101,9 @@ export default function EditEmployeeData() {
             salary,
             dateOfBirth
         }
-        console.log(data)
-        dispatch(update({ id, data }))
+        dispatch(updateEmployeeRequest(data,id))
         navigate('/employees')
     }
-
     return (
         <div>
             <Navbar />

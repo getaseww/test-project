@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
 import { useLocation } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { show } from '../features/employeeSlice';
 import styled from 'styled-components';
 import Navbar from '../components/Navbar';
 import moment from 'moment';
+import { useDispatch, useSelector } from 'react-redux';
+import { getEmployeeRequest } from '../redux/actions/employeeActions';
+import { EmployeeState } from '../redux/reducers/employeeReducers';
 const Wrapper = styled.div`
 margin-top:20px;
 display:flex;
@@ -36,27 +37,32 @@ display:flex;
 export default function SingleEmployee() {
     const location = useLocation();
     const id = location.pathname.split('/')[2];
-    const dispatch = useAppDispatch();
+    const dispatch = useDispatch();
     useEffect(()=>{
-        dispatch(show(id))
+        dispatch(getEmployeeRequest(id))
     },[])
-    const employee = useAppSelector(state => state.employee.employee);
+    const employee = useSelector<EmployeeState, EmployeeState["employee"]>(
+        (state) => state.employee
+    );
 
   return (
     <div>
         <Navbar/>
         <Wrapper>
+            {employee?
             <Card>
                 <Title>Employee Information</Title>
                 <Row>
-                <Title2>Name:</Title2><Text>{employee&&employee.name}</Text></Row>
+                <Title2>Name:</Title2><Text>{employee.name}</Text></Row>
                 <Row>
-                <Title2>Gender:</Title2><Text>{employee&&employee.gender}</Text></Row>
+                <Title2>Gender:</Title2><Text>{employee.gender}</Text></Row>
                 <Row>
-                <Title2>Salary:</Title2><Text>{employee&&employee.salary}</Text></Row>
+                <Title2>Salary:</Title2><Text>{employee.salary}</Text></Row>
                 <Row>
-                <Title2>Date of birth:</Title2><Text>{employee&&moment(employee.dateOfBirth).format('LLL')}</Text></Row>
-            </Card>
+                <Title2>Date of birth:</Title2><Text>{moment(employee.dateOfBirth).format('LL')}</Text></Row>
+            </Card>:<p>Loading....</p>
+
+            }
         </Wrapper>
     </div>
   )

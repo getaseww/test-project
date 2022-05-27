@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import Navbar from '../components/Navbar'
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { fetchAll, show,remove,update } from '../features/employeeSlice';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { EmployeeState } from '../redux/reducers/employeeReducers';
+import { deleteEmployeeRequest, fetchEmployeeRequest, fetchEmployeeSuccess } from '../redux/actions/employeeActions';
 
 
 const Wrapper = styled.div`
@@ -62,33 +63,38 @@ font-size:17px;
 }
 `
 export default function Employees() {
-    const dispatch = useAppDispatch();
-    const navigate=useNavigate()
-
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(fetchAll())
+        const args = {
+            '_id': "ksdios",
+            "name": "name",
+            "gender": "male",
+            "salary": 0,
+            "dateOfBirth": new Date()
+        }
+        dispatch(fetchEmployeeRequest(args))
     }, [])
-    const employees = useAppSelector(state => state.employee.all_employees);
+    const employees = useSelector<EmployeeState, EmployeeState["employees"]>(
+        (state) => state.employees
+    );
 
     const showEmployee = async (e: React.MouseEvent<HTMLButtonElement>, id: string) => {
         navigate(`/employee/${id}`)
     }
 
     const editEmployeeRecord = async (e: React.MouseEvent<HTMLButtonElement>, id: string) => {
-        dispatch(show(id))
         navigate(`/employee/edit/${id}`)
     }
 
     const deleteRecord = async (e: React.MouseEvent<HTMLButtonElement>, id: string) => {
         e.preventDefault()
-        dispatch(remove(id))
-        dispatch(fetchAll())
+        dispatch(deleteEmployeeRequest(id))
     }
     return (
         <div>
             <Navbar />
-            <Wrapper>{
-                employees?
+            <Wrapper>
                 <Table>
                     <TableRow>
                         <TableHead>No</TableHead>
@@ -115,9 +121,7 @@ export default function Employees() {
                         ))
                         : <p>Loading...</p>
                     }
-                </Table>:<p style={{textAlign:"center"}}>Loading...</p>
-                
-                }
+                </Table>
             </Wrapper>
         </div>
     )
