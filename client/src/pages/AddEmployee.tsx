@@ -72,6 +72,8 @@ font-size:17px;
     background-color:#0bafe6;
 }
 `
+
+
 export default function AddEmployee() {
   const [name, setName] = useState<string>('')
   const [gender, setGender] = useState<string>('male')
@@ -79,6 +81,7 @@ export default function AddEmployee() {
   const [dateOfBirth, setDateOfBirth] = useState<Date>(new Date())
   const dispatch = useDispatch()
   const navigate=useNavigate();
+
 
   const submit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
