@@ -1,4 +1,4 @@
-# HOW TO ISTALL EMPLOYEE MANAGMENT SYSTEM 
+# HOW TO INSTALL IN YOUR MACHINE
 
 Clone this repository from GitHub using the command below
 ### git clone https://github.com/getaseww/test-project.git
