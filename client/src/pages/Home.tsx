@@ -15,6 +15,9 @@ border-radius:20px;
 border: 1px solid #010101;
 height:70vh;
 width:90vw;
+@media(max-width:600px){
+    height:100vh;
+}
 `
 const Title=styled.h3`
 text-align:center;
@@ -37,8 +40,13 @@ const Row=styled.div`
 display:flex;
 margin:10vh;
 justify-content:space-between;
+@media(max-width:600px){
+    flex-direction:column;
+}
 `
 const Button=styled.button`
+margin-left:20px;
+margin-top:10px;
 border-radius:10px;
 border:none;
 padding:15px 20px;

@@ -34,9 +34,15 @@ padding:25px 20px;
 const Row=styled.div`
 display:flex;
 `
+
+const Loading=styled.p`
+text-align:center;
+font-size:30px;
+font-weight:700;
+`
 export default function SingleEmployee() {
     const location = useLocation();
-    const id = location.pathname.split('/')[2];
+    const id:string = location.pathname.split('/')[2];
     const dispatch = useDispatch();
     useEffect(()=>{
         dispatch(getEmployeeRequest(id))
@@ -60,8 +66,7 @@ export default function SingleEmployee() {
                 <Title2>Salary:</Title2><Text>{employee.salary}</Text></Row>
                 <Row>
                 <Title2>Date of birth:</Title2><Text>{moment(employee.dateOfBirth).format('LL')}</Text></Row>
-            </Card>:<p>Loading....</p>
-
+            </Card>:<Loading>Loading....</Loading>
             }
         </Wrapper>
     </div>

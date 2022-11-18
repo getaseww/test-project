@@ -18,6 +18,6 @@ mongoose.connect(process.env.MONGO_URL, {
 app.use('/api',routes)
 
 app.listen(process.env.PORT || 8000, () => {
-    console.log("backend is running on port "+process.env.PORT);
+    console.log("start runing" );
 })
 

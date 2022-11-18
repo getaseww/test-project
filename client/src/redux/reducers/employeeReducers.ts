@@ -5,6 +5,7 @@ export interface EmployeeState {
     employees: EmployeeModel[];
     employee:EmployeeModel,
     isLoading:boolean,
+    isSuccess:boolean,
     error:string,
   }
   
@@ -18,6 +19,7 @@ export interface EmployeeState {
     "dateOfBirth":new Date(),
     },
     isLoading:false,
+    isSuccess:false,
     error:""
   };
   
@@ -31,46 +33,46 @@ export interface EmployeeState {
         return { ...state, isLoading: true};
       }
       case "GET_EMPLOYEE_SUCCESS":{
-        return {...state,employee:action.payload,isLoading:false}
+        return {...state,employee:action.payload,isLoading:false,isSuccess:true}
       }
       case "GET_EMPLOYEE_ERROR":{
-        return {...state}
+        return {...state,isSuccess:false}
       }
       case "FETCH_EMPLOYEES_REQUEST": {
         return { ...state, isLoading: true};
       }
       case "FETCH_EMPLOYEES_SUCCESS":{
-        return {...state,employees:action.payload,isLoading:false}
+        return {...state,employees:action.payload,isLoading:false,isSuccess:true}
       }
       case "FETCH_EMPLOYEES_ERROR":{
-        return {...state}
+        return {...state,isSuccess:false}
       }
       case "INSERT_EMPLOYEE_REQUEST": {
         return { ...state, isLoading: true};
       }
       case "INSERT_EMPLOYEE_SUCCESS":{
-        return {...state,isLoading:false}
+        return {...state,isLoading:false,isSuccess:true}
       }
       case "INSERT_EMPLOYEE_ERROR":{
-        return {...state}
+        return {...state,isSuccess:false}
       }
       case "UPDATE_EMPLOYEE_REQUEST": {
         return { ...state, isLoading: true};
       }
       case "UPDATE_EMPLOYEE_SUCCESS":{
-        return {...state,isLoading:false}
+        return {...state,isLoading:false,isSuccess:true}
       }
       case "UPDATE_EMPLOYEE_ERROR":{
-        return {...state}
+        return {...state,isSuccess:false}
       }
       case "DELETE_EMPLOYEE_REQUEST": {
         return { ...state, isLoading: true};
       }
       case "DELETE_EMPLOYEE_SUCCESS":{
-        return {...state,isLoading:false}
+        return {...state,isLoading:false,isSuccess:true}
       }
       case "DELETE_EMPLOYEE_ERROR":{
-        return {...state}
+        return {...state,isSuccess:false}
       }
       default:
         return state;

@@ -4,9 +4,10 @@ import { EmployeeModel, EmployeeModelData } from '../../models/models';
 import { fetchEmployeeSuccess, getEmployeeSuccess, insertEmployeeError, updateEmployeeError } from '../actions/employeeActions';
 import { ACTION_TYPES } from '../actions/actionTypes';
 import { get } from 'lodash'
+import { MAIN_API_URL } from '../../utils/constants';
 
 const getEmployee=async(id:string)=>{
-    const res = await axios.get(`http://localhost:8000/api/employee/${id}`)
+    const res = await axios.get(MAIN_API_URL+`employee/${id}`)
     return res.data.data
 }
 
@@ -23,7 +24,7 @@ function* getEmployeeSaga(action:any) {
 }
 
 const fetchEmployees = async () => {
-    const res = await axios.get("http://localhost:8000/api/employees")
+    const res = await axios.get(MAIN_API_URL+"employees")
     return res.data.data
 }
 
@@ -39,7 +40,8 @@ function* fetchEmployeeSaga() {
 }
 
 const insertEmployee = async (body: EmployeeModelData) => {
-    const res = await axios.post("http://localhost:8000/api/employee/create", body)
+    const res = await axios.post(MAIN_API_URL+"employee/create", body)
+    console.log(res.data)
     return res.data.data
 }
 
@@ -57,7 +59,7 @@ function* insertEmployeeSaga(action: any) {
 }
 
 const updateEmployee = async (body: EmployeeModelData, id: string) => {
-    const res = await axios.put(`http://localhost:8000/api/employee/${id}`, body)
+    const res = await axios.put(MAIN_API_URL+`employee/${id}`, body)
     return res.data.data
 }
 
@@ -76,7 +78,7 @@ function* updateEmployeeSaga(action: any) {
 }
 
 const deleteEmployee = async (id: string) => {
-    const res = await axios.delete(`http://localhost:8000/api/employee/${id}`)
+    const res = await axios.delete(MAIN_API_URL+`employee/${id}`)
     return res.data.data
 }
 

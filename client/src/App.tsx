@@ -5,6 +5,10 @@ import EditEmployeeData from './pages/EditEmployeeData';
 import Employees from './pages/Employees';
 import Home from './pages/Home';
 import SingleEmployee from './pages/SingleEmployee';
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
+
 function App() {
   return (
     <div className="App">
@@ -17,6 +21,7 @@ function App() {
       <Route path='/create' element={<AddEmployee/>}></Route>
       </Routes>
       </BrowserRouter>
+      <ToastContainer/>
     </div>
   );
 }

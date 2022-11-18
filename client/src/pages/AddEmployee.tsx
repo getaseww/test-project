@@ -1,11 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Navbar from '../components/Navbar'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { EmployeeModel, EmployeeModelData } from '../models/models';
-import { useDispatch } from 'react-redux';
+import { EmployeeModelData } from '../models/models';
+import { useDispatch, useSelector } from 'react-redux';
 import { insertEmployeeRequest } from '../redux/actions/employeeActions';
+import { EmployeeState } from '../redux/reducers/employeeReducers';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
 margin-top:20px;
@@ -56,27 +59,30 @@ padding:7px;
 margin-left:24.5%;
 `
 const Button = styled.button`
+width:50%;
 margin-top:30px;
-border-radius:5px;
+border-radius:15px;
 border:none;
-padding:10px;
+padding:10px 20px;
 background-color:#0b5fe6;
 color:white;
 font-size:17px;
 &:hover{
+  cursor:pointer;
     background-color:#0bafe6;
 }
 `
 export default function AddEmployee() {
-  const [name,setName]=useState('')
-  const [gender,setGender]=useState('male')
-  const [salary,setSalary]=useState(0)
-  const [dateOfBirth,setDateOfBirth]=useState(new Date())
-  const dispatch=useDispatch()
+  const [name, setName] = useState<string>('')
+  const [gender, setGender] = useState<string>('male')
+  const [salary, setSalary] = useState<number>(0)
+  const [dateOfBirth, setDateOfBirth] = useState<Date>(new Date())
+  const dispatch = useDispatch()
+  const navigate=useNavigate();
 
-  const submit=async(e:React.MouseEvent<HTMLButtonElement>)=>{
+  const submit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    const data:EmployeeModelData={
+    const data: EmployeeModelData = {
       name,
       gender,
       salary,
@@ -84,7 +90,27 @@ export default function AddEmployee() {
     }
     console.log(data)
     dispatch(insertEmployeeRequest(data))
+
+    // clear input fields
+    setName('');
+    setSalary(0);
+
   }
+
+  const isSuccess: boolean = useSelector<EmployeeState, EmployeeState["isSuccess"]>(
+    (state) => state.isSuccess
+  );
+  // useEffect(() => {
+  //   console.log("is success");
+  //   console.log(isSuccess);
+
+  //   if (isSuccess) {
+  //     toast.success("Employee Data Added Successfully!")
+  //   } else {
+  //     toast.error("Something went wrong While Inserting Employee Data");
+  //   }
+  // }, [isSuccess])
+
   return (
     <div>
       <Navbar />
@@ -93,13 +119,13 @@ export default function AddEmployee() {
           <Title>Add Employee Data</Title>
           <Form>
             <Label>Name</Label>
-            <Input onChange={(e)=>setName(e.target.value)} placeholder='Employee Name'/>
+            <Input onChange={(e) => setName(e.target.value)} placeholder='Enter Employee Name' />
             <Label>Salary</Label>
-            <Input onChange={(e)=>setSalary(parseInt(e.target.value))}/>
+            <Input onChange={(e) => setSalary(parseInt(e.target.value))} placeholder='Enter Employee Salary' />
             <Label>Date of birth</Label>
             <Picker selected={dateOfBirth} onChange={(date: Date) => setDateOfBirth(date)} />
             <Label>Age</Label>
-            <Select onChange={(e)=>setGender(e.target.value)}>
+            <Select onChange={(e) => setGender(e.target.value)}>
               <Option value='male'>Male</Option>
               <Option value='female'>Female</Option>
             </Select>

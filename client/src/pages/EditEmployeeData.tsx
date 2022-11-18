@@ -73,11 +73,11 @@ font-size:17px;
 
 export default function EditEmployeeData() {
     const location = useLocation();
-    const id = location.pathname.split('/')[3];
-    const [name, setName] = useState('')
-    const [gender, setGender] = useState('')
-    const [salary, setSalary] = useState(0)
-    const [dateOfBirth, setDateOfBirth] = useState(new Date())
+    const id:string = location.pathname.split('/')[3];
+    const [name, setName] = useState<string>('')
+    const [gender, setGender] = useState<string>('')
+    const [salary, setSalary] = useState<number>(0)
+    const [dateOfBirth, setDateOfBirth] = useState<Date>(new Date())
 
     const dispatch=useDispatch()
     useEffect(()=>{
